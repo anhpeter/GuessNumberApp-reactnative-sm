@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TextInput, Button, Keyboard, Alert} from 'react-native';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, Text, TextInput, Button, Keyboard, Alert, TouchableWithoutFeedback} from 'react-native';
+import BodyText from '../../components/BodyText';
 import Card from '../../components/Card';
 import MainButton from '../../components/MainButton';
 import MyInput from '../../components/MyInput';
@@ -10,10 +11,12 @@ import Colors from '../../constants/Colors';
 const ChosenNumber = (props)=>{
     return (
         <Card style={styles.chosenNumberCard}>
-            <Text>You selected</Text>
-            <NumberContainer style={styles.numberContainer}>{props.number}</NumberContainer>
-            <MainButton onPress={props.onStartGame.bind(this, [props.number])}
-                textStyle={{color: Colors.secondary, fontWeight: 'bold'}}>START</MainButton>
+            <BodyText>You selected</BodyText>
+            <NumberContainer style={styles.numberContainer} >{props.number}</NumberContainer>
+            <MainButton style={styles.startButton}
+                variant="contained"
+                color="secondary"
+                onPress={props.onStartGame.bind(this, [props.number])}  >START</MainButton>
         </Card>
     );
 };
@@ -62,12 +65,12 @@ export default function StartScreen(props) {
         }
     };
 
-
     return (
-        <Screen onPress={pressScreenHandler}>
+        <Screen style={styles.screen}
+            onPress={pressScreenHandler}>
             <Card style={styles.card}>
                 <View style={styles.inputContainer}>
-                    <Text>Select a number</Text>
+                    <BodyText>Select a number</BodyText>
                     <MyInput 
                         style={styles.input}
                         onChangeText={changeInputTextHandler}
@@ -82,11 +85,14 @@ export default function StartScreen(props) {
                 </View>
                 <View style={styles.buttonsContainer}>
                     <MainButton onPress={pressResetButtonHandler}
-                        textStyle={{color: Colors.secondary}}>Reset</MainButton>
+                        variant="outlined"
+                        color="secondary" >Reset</MainButton>
                     <MainButton onPress={pressConfirmButtonHandler}
-                        textStyle={{color: Colors.primary}}>Confirm</MainButton>
+                        variant="outlined"
+                        color="primary" >Confirm</MainButton>
                 </View>
             </Card>
+            
             {
                 chosenNumber !== ''
                     ? <ChosenNumber onStartGame={props.onStartGame}
@@ -98,6 +104,9 @@ export default function StartScreen(props) {
 }
 
 const styles = StyleSheet.create({
+    screen: {
+        paddingTop: 50,
+    },
     card: {
         width: 300,
         maxWidth: '80%',
@@ -123,7 +132,9 @@ const styles = StyleSheet.create({
         width: 20,
     },
     numberContainer: {
-        width: 50,
-        alignItems: 'center'
-    }
+        marginVertical: 15,
+    },
+    startButton: {
+        width: 100,
+    },
 });

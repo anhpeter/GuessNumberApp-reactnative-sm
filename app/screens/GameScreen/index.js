@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Text, Alert, ScrollView} from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { View, StyleSheet, Text, Alert, ScrollView, FlatList} from 'react-native';
 import NumberContainer from '../../components/NumberContainer';
 import Screen from '../../components/Screen';
 import Card from '../../components/Card';
 import MainButton from '../../components/MainButton';
 import Colors from '../../constants/Colors';
+import BodyText from '../../components/BodyText';
+import TitleText from '../../components/TitleText';
+import SubTitleText from '../../components/SubTitleText';
 
 const showLieAlert = (direction)=>{
     Alert.alert('Don\'t lie', `It's must be ${direction}!`, [
@@ -18,7 +22,7 @@ const showLieAlert = (direction)=>{
 const generateRandomNumber = (min, max, excludeList)=>{
     const randomNumber = Math.floor(Math.random()*(max-min)+min);
     if (excludeList.indexOf(randomNumber) >-1){
-        generateRandomNumber(min, max, excludeList);
+        return generateRandomNumber(min, max, excludeList);
     }else{
         return randomNumber;
     }
@@ -27,8 +31,8 @@ const generateRandomNumber = (min, max, excludeList)=>{
 const GuessItem = (props)=>{
     return (
         <View style={styles.scrollViewItem} >
-            <Text style={{fontWeight: 'bold'}}>#{props.guessListLength - props.itemIndex}</Text>
-            <Text>{props.item}</Text>
+            <BodyText style={{fontWeight: 'bold'}}>#{props.guessListLength - props.itemIndex}</BodyText>
+            <BodyText>{props.item}</BodyText>
         </View> 
 
     );
@@ -36,7 +40,7 @@ const GuessItem = (props)=>{
 
 
 export default function GameScreen(props) {
-    const initialGuessValue = generateRandomNumber(1, 100, [props.userNumber]);
+    const initialGuessValue = generateRandomNumber(1, 99, [props.userNumber]);
     const [currentGuess, setCurrentGuess] = useState(initialGuessValue);
     const [guessList, setGuessList] = useState([initialGuessValue]);
 
@@ -80,16 +84,44 @@ export default function GameScreen(props) {
 
     return (
         <Screen>
-            <Text>Opponent's guess</Text>
+            <SubTitleText>Opponent's guess</SubTitleText>
             <NumberContainer>{currentGuess}</NumberContainer>
             <Card style={styles.buttonsContainer}>
                 <MainButton onPress={pressControlButtonHandler.bind(this, 'lower')}
-                    textStyle={styles.button}>LOWER</MainButton>
+                    textStyle={styles.button}
+                    variant="contained"
+                    color="primary"
+                >
+                    <Feather name="minus"
+                        size={24}
+                        color={Colors.white} />
+                </MainButton>
                 <MainButton onPress={pressControlButtonHandler.bind(this, 'greater')}
-                    textStyle={styles.button}>GREATER</MainButton>
+                    textStyle={styles.button}
+                    variant="contained"
+                    color="primary"
+                >
+                    <Feather name="plus"
+                        size={24}
+                        color={Colors.white} />
+                </MainButton>
             </Card>
-            <ScrollView style={{width: '60%',}}
-                contentContainerStyle={styles.scrollView}>
+            <FlatList style={{width: '60%',}}
+                contentContainerStyle={styles.scrollView}
+                keyExtractor={(item)=>{return `${item}`;}}
+                data={guessList}
+                renderItem={
+                    ({item, index})=>{
+                        return <GuessItem
+                            guessListLength={guessList.length}
+                            itemIndex={index}
+                            item={item} />;
+                    }
+
+                }
+            >
+                {/* 
+
                 {
                     guessList.map((item, index)=>{
                         return <GuessItem
@@ -99,7 +131,8 @@ export default function GameScreen(props) {
                             item={item} />;
                     })
                 }
-            </ScrollView>
+                     */}
+            </FlatList>
         </Screen>
     );
 }
@@ -112,8 +145,8 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     button: {
+        width: 60,
         fontWeight: 'bold',
-        color: Colors.primary,
     },
     scrollView: {
         flexGrow: 1,

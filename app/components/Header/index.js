@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 import Colors from '../../constants/Colors';
+import TitleText from '../TitleText';
 
 export default function Header(props) {
     const isAndroid = Platform.OS === 'android';
@@ -10,7 +11,7 @@ export default function Header(props) {
             paddingTop: isAndroid ? statusBarHeight : 0,
             height: 60 + statusBarHeight,
         }]}>
-            <Text style={styles.text}>{props.title}</Text>
+            <TitleText style={styles.text}>{props.title}</TitleText>
         </View>
     );
 }
@@ -23,8 +24,5 @@ const styles = StyleSheet.create({
     },
     text: {
         color: Colors.white,
-        fontWeight: 'bold',
-        fontSize: 20,
     }
-
 });
