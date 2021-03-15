@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Text, TextInput, Button, Keyboard, Alert, TouchableWithoutFeedback} from 'react-native';
+import { View, StyleSheet, Text, TextInput, Button, Keyboard, Alert, TouchableWithoutFeedback, ScrollView, KeyboardAvoidingView} from 'react-native';
 import BodyText from '../../components/BodyText';
 import Card from '../../components/Card';
 import MainButton from '../../components/MainButton';
@@ -66,40 +66,46 @@ export default function StartScreen(props) {
     };
 
     return (
-        <Screen style={styles.screen}
-            onPress={pressScreenHandler}>
-            <Card style={styles.card}>
-                <View style={styles.inputContainer}>
-                    <BodyText>Select a number</BodyText>
-                    <MyInput 
-                        style={styles.input}
-                        onChangeText={changeInputTextHandler}
-                        value={inputNumber}
-                        autoFocus
-                        autoCorrect={false}
-                        autoCapitalize={'none'}
-                        maxLength={2}
-                        textAlign="center"
-                        keyboardType="number-pad"
-                    />
-                </View>
-                <View style={styles.buttonsContainer}>
-                    <MainButton onPress={pressResetButtonHandler}
-                        variant="outlined"
-                        color="secondary" >Reset</MainButton>
-                    <MainButton onPress={pressConfirmButtonHandler}
-                        variant="outlined"
-                        color="primary" >Confirm</MainButton>
-                </View>
-            </Card>
+        <ScrollView>
+            <Screen style={styles.screen}
+                onPress={pressScreenHandler}>
+                <KeyboardAvoidingView>
+                    <Card style={styles.card}>
+                        <View style={styles.inputContainer}>
+                            <BodyText>Select a number</BodyText>
+                            <MyInput 
+                                style={styles.input}
+                                onChangeText={changeInputTextHandler}
+                                value={inputNumber}
+                                autoFocus
+                                autoCorrect={false}
+                                autoCapitalize={'none'}
+                                maxLength={2}
+                                textAlign="center"
+                                keyboardType="number-pad"
+                            />
+                        </View>
+                        <View style={styles.buttonsContainer}>
+                            <MainButton onPress={pressResetButtonHandler}
+                                variant="outlined"
+                                color="secondary" >Reset</MainButton>
+                            <MainButton onPress={pressConfirmButtonHandler}
+                                variant="outlined"
+                                color="primary" >Confirm</MainButton>
+                        </View>
+                    </Card>
+                </KeyboardAvoidingView>
+                
             
-            {
-                chosenNumber !== ''
-                    ? <ChosenNumber onStartGame={props.onStartGame}
-                        number={chosenNumber} />
-                    : null
-            }
-        </Screen>
+                {
+                    chosenNumber !== ''
+                        ? <ChosenNumber onStartGame={props.onStartGame}
+                            number={chosenNumber} />
+                        : null
+                }
+            </Screen>
+        </ScrollView>
+        
     );
 }
 
@@ -123,7 +129,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         width: '100%',
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
     },
     inputContainer: {
         alignItems: 'center',

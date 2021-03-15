@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, ScrollView} from 'react-native';
 
 export default function Screen(props) {
     return (

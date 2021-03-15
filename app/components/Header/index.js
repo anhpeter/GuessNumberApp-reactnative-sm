@@ -8,7 +8,7 @@ export default function Header(props) {
     const statusBarHeight = StatusBar.currentHeight;
     return (
         <View style={[styles.container, {
-            paddingTop: isAndroid ? statusBarHeight : 0,
+            paddingTop: Platform.OS === 'android' ? statusBarHeight: 0,
             height: 60 + statusBarHeight,
         }]}>
             <TitleText style={styles.text}>{props.title}</TitleText>

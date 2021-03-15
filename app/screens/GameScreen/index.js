@@ -106,6 +106,8 @@ export default function GameScreen(props) {
                         color={Colors.white} />
                 </MainButton>
             </Card>
+            {/* 
+             */}
             <FlatList style={{width: '60%',}}
                 contentContainerStyle={styles.scrollView}
                 keyExtractor={(item)=>{return `${item}`;}}
@@ -141,6 +143,7 @@ const styles = StyleSheet.create({
     buttonsContainer: {
         flexDirection: 'row',
         width: '80%',
+        maxWidth: 400,
         justifyContent: 'space-evenly',
         marginVertical: 20,
     },

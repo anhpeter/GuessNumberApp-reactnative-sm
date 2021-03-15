@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, TouchableNativeFeedback, Platform} from 'react-native';
 import BodyText from '../BodyText';
 import Colors from '../../constants/Colors';
 import FontFamily from '../../constants/FontFamily';
+
 
 export default function MainButton(props) {
     // color
@@ -23,13 +24,18 @@ export default function MainButton(props) {
 
     // font weight
     if (bold) textStyle.fontFamily = FontFamily.montserratSemiBold;
+    let ButtonComponent = TouchableOpacity;
+    if (Platform.OS === 'android' && Platform.Version > 21){
+        ButtonComponent = TouchableNativeFeedback;
+    }
+
     return (
-        <TouchableOpacity 
+        <ButtonComponent 
             onPress={props.onPress}>
             <View style={[containerStyle, styles.container,props.style]}>
                 <BodyText style={{...textStyle,...styles.text, ...props.textStyle}}>{props.children}</BodyText>
             </View>
-        </TouchableOpacity>
+        </ButtonComponent>
     );
 }
 

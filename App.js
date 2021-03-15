@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, BackHandler, Image, Platform, StatusBar, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, BackHandler, Image, Platform, SafeAreaView, StatusBar, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Header from './app/components/Header';
 import GameOverScreen from './app/screens/GameOverScreen';
 import GameScreen from './app/screens/GameScreen';
@@ -22,6 +22,7 @@ export default function App() {
     const [isLoading, setLoading] = useState(true);
     const [userNumber, setUserNumber] = useState(null);
     const [rounds, setRounds] = useState(0);
+
 
     const onReset = ()=>{
         setUserNumber(null);
@@ -72,10 +73,11 @@ export default function App() {
     }
     
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Header title="Guess a number" />
             {content}
-        </View>
+        </SafeAreaView>
+        
     );
 }
 
